@@ -1,3 +1,4 @@
-# pentominos
-puzzle resolution
-deteccion de ceros de cualquier tamaño
+# Pentominos
+##Puzzle resolution
+
+Versión con deteccion de ceros de cualquier tamaño
