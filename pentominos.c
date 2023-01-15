@@ -5,10 +5,10 @@
 #define TAM_TABLERO 16
 #define TAM_PIEZA 5
 #define NUM_PIEZAS 12
-#define NUM_PIEZAS_INVALIDAS 9
 
 int encontrada_valida = 0;
 int cont_max = 0;
+int cont_ceros = 0;
 
 int piezas[NUM_PIEZAS][TAM_PIEZA][TAM_PIEZA] = {{
         {'a', 'a', '0', '0', '0'},
@@ -84,71 +84,6 @@ int piezas[NUM_PIEZAS][TAM_PIEZA][TAM_PIEZA] = {{
         {'0', '0', '0', '0', '0'}
     }};
 
-int piezas_invalidas[NUM_PIEZAS_INVALIDAS][TAM_PIEZA+1][TAM_PIEZA+1] = {{
-        {200, 'z', 200, 200, 200, 200},
-        {'z', '9', 'z', 200, 200, 200},
-        {200, 'z', 200, 200, 200, 200},
-        {200, 200, 200, 200, 200, 200},
-        {200, 200, 200, 200, 200, 200},
-        {200, 200, 200, 200, 200, 200}
-    }, {
-        {200, 'z', 'z', 200, 200, 200},
-        {'z', '9', '9', 'z', 200, 200},
-        {200, 'z', 'z', 200, 200, 200},
-        {200, 200, 200, 200, 200, 200},
-        {200, 200, 200, 200, 200, 200},
-        {200, 200, 200, 200, 200, 200}
-    }, {
-        {200, 200, 'z', 200, 200, 200},
-        {200, 'z', '9', 'z', 200, 200},
-        {'z', '9', '9', 'z', 200, 200},
-        {200, 'z', 'z', 200, 200, 200},
-        {200, 200, 200, 200, 200, 200},
-        {200, 200, 200, 200, 200, 200}
-    }, {
-        {200, 'z', 'z', 'z', 200, 200},
-        {'z', '9', '9', '9', 'z', 200},
-        {200, 'z', 'z', 'z', 200, 200},
-        {200, 200, 200, 200, 200, 200},
-        {200, 200, 200, 200, 200, 200},
-        {200, 200, 200, 200, 200, 200}
-    }, {
-        {200, 'z', 'z', 'z', 'z', 200},
-        {'z', '9', '9', '9', '9', 'z'},
-        {200, 'z', 'z', 'z', 'z', 200},
-        {200, 200, 200, 200, 200, 200},
-        {200, 200, 200, 200, 200, 200},
-        {200, 200, 200, 200, 200, 200}
-    }, {
-        {200, 'z', 'z', 200, 200, 200},
-        {'z', '9', '9', 'z', 200, 200},
-        {'z', '9', '9', 'z', 200, 200},
-        {200, 'z', 'z', 200, 200, 200},
-        {200, 200, 200, 200, 200, 200},
-        {200, 200, 200, 200, 200, 200}
-    }, {
-        {200, 'z', 'z', 200, 200, 200},
-        {'z', '9', '9', 'z', 200, 200},
-        {200, 'z', '9', 'z', 200, 200},
-        {200, 'z', '9', 'z', 200, 200},
-        {200, 200, 'z', 200, 200, 200},
-        {200, 200, 200, 200, 200, 200}
-    },{
-        {200, 200, 'z', 200, 200, 200},
-        {200, 'z', '9', 'z', 200, 200},
-        {'z', '9', '9', 'z', 200, 200},
-        {200, 'z', '9', 'z', 200, 200},
-        {200, 200, 'z', 200, 200, 200},
-        {200, 200, 200, 200, 200, 200}
-    },{
-        {200, 'z', 200, 200, 200, 200},
-        {'z', '9', 'z', 200, 200, 200},
-        {'z', '9', '9', 'z', 200, 200},
-        {200, 'z', '9', 'z', 200, 200},
-        {200, 200, 'z', 200, 200, 200},
-        {200, 200, 200, 200, 200, 200}
-    }};
-
 
 int dibujar_tablero(int tablero[TAM_TABLERO][TAM_TABLERO])
 {
@@ -184,20 +119,6 @@ int dibujar_pieza(int pieza[TAM_PIEZA][TAM_PIEZA])
     printf("\n");
     return 0;
 }
-int dibujar_pieza_invalida(int pieza[TAM_PIEZA+1][TAM_PIEZA+1])
-{
-    int i, j;
-    for (i = 0; i < TAM_PIEZA+1; i++)
-    {
-        for (j = 0; j < TAM_PIEZA+1; j++)
-        {
-            printf("%c ", pieza[i][j]);
-        }
-        printf("\n");
-    }
-    printf("\n");
-    return 0;
-}
 
 int pos_valida(int matriz[TAM_PIEZA][TAM_PIEZA])
 {
@@ -215,108 +136,130 @@ int pos_valida(int matriz[TAM_PIEZA][TAM_PIEZA])
     }
     return 1;
 }
-int pos_invalida_correcta(int matriz[TAM_PIEZA+1][TAM_PIEZA+1])
-{
-    int i, j;
-    //int valido = 1;
-    for (i = 0; i < TAM_PIEZA+1; i++)
-    {
-        for (j = 0; j < TAM_PIEZA+1; j++)
-        {
-            //printf("%d ", matriz[i][j]);
 
-            if (matriz[i][j]<248){
-                if(matriz[i][j]==170 || matriz[i][j]==179 || (matriz[i][j]>=154 && matriz[i][j]<=165)){
-                    // printf("Encontrado valor: %d, no hay ceros aislados\n\n\n", matriz[i][j]);
-                    return 0;
-                }
-            }
+int buscar_ceros(int tablero[TAM_TABLERO][TAM_TABLERO], int i, int j, int i_ant, int j_ant){
+    //dibujar_tablero(tablero);
+    if (i_ant == i && j_ant == j-1) // ha entrado por la izquierda
+    {
+        if (tablero[i-1][j] == '0')
+        {
+            tablero[i-1][j] = '1';
+            cont_ceros ++;
+            buscar_ceros(tablero,i-1,j,i,j);
         }
-        //printf("\n");
+        if (tablero[i][j+1] == '0')
+        {
+            tablero[i][j+1] = '1';
+            cont_ceros ++;
+            buscar_ceros(tablero,i,j+1,i,j);
+        }
+        if (tablero[i+1][j] == '0')
+        {
+            tablero[i+1][j] = '1';
+            cont_ceros ++;
+            buscar_ceros(tablero,i+1,j,i,j);
+        }
     }
-    
-    // printf("No encontrado valor, hay ceros aislados\n\n\n");
-    return 1;
+    else if (i_ant == i && j_ant == j+1) // ha entrado por la derecha
+    {
+        if(tablero[i-1][j] == '0')
+        {
+            tablero[i-1][j] = '1';
+            cont_ceros ++;
+            buscar_ceros(tablero,i-1,j,i,j);
+        }
+        if (tablero[i][j-1] == '0')
+        {
+            tablero[i][j-1] = '1';
+            cont_ceros ++;
+            buscar_ceros(tablero,i,j-1,i,j);
+        }        
+        if (tablero[i+1][j] == '0')
+        {
+            tablero[i+1][j] = '1';
+            cont_ceros ++;
+            buscar_ceros(tablero,i+1,j,i,j);
+        }
+    }
+    else if (i_ant == i-1 && j_ant == j) // ha entrado por arriba
+    {
+        if (tablero[i][j-1] == '0')
+        {
+            tablero[i][j-1] = '1';
+            cont_ceros ++;
+            buscar_ceros(tablero,i,j-1,i,j);
+        }
+        if (tablero[i+1][j] == '0')
+        {
+            tablero[i+1][j] = '1';
+            cont_ceros ++;
+            buscar_ceros(tablero,i+1,j,i,j);
+        }
+        if (tablero[i][j+1] == '0')
+        {
+            tablero[i][j+1] = '1';
+            cont_ceros ++;
+            buscar_ceros(tablero,i,j+1,i,j);
+        }
+    }
+    else if (i_ant == i+1 && j_ant == j) // ha entrado por abajo
+    {
+        if (tablero[i][j-1] == '0')
+        {
+            tablero[i][j-1] = '1';
+            cont_ceros ++;
+            buscar_ceros(tablero,i,j-1,i,j);
+        }
+        if (tablero[i-1][j] == '0')
+        {
+            tablero[i-1][j] = '1';
+            cont_ceros ++;
+            buscar_ceros(tablero,i-1,j,i,j);
+        }
+        if (tablero[i][j+1] == '0')
+        {
+            tablero[i][j+1] = '1';
+            cont_ceros ++;
+            buscar_ceros(tablero,i,j+1,i,j);
+        }
+    }
+    return 0;
 }
+
 int encontrar_aislados(int tablero[TAM_TABLERO][TAM_TABLERO]){
     
-    int i, j,n,m, cont, simetria, rotaciones;
+    int i, j,i_ant,j_ant;
     int pieza_aux [TAM_PIEZA+1][TAM_PIEZA+1];
 
-    //dibujar_tablero(tablero);
-    for (cont = 0; cont < NUM_PIEZAS_INVALIDAS ; cont ++){
-        for (simetria=0;simetria<2;simetria++){
-            //printf("Simetria: %d\n",simetria);
-            for (rotaciones=0; rotaciones<4; rotaciones++)
+    i_ant = 0;
+    j_ant = -1;
+    
+    for (i = 0; i < TAM_TABLERO; i++)
+    {
+        for (j = 0; j < TAM_TABLERO; j++)
+        {
+            cont_ceros = 0;
+            if(tablero[i][j]=='0')
             {
-                for (n=0; n<(TAM_TABLERO-(TAM_PIEZA+1))&&encontrada_valida==0; n++) //TAM_PIEZA
+                tablero[i][j]='1';
+                cont_ceros ++;
+                buscar_ceros(tablero,i,j,i_ant,j_ant);
+
+                //printf("Contador ceros: %d\n", cont_ceros);
+                if (cont_ceros < 10 && cont_ceros%5!=0)
                 {
-                    for (m=0; m<(TAM_TABLERO-(TAM_PIEZA+1))&&encontrada_valida==0; m++) //TAM_PIEZA
-                    {
-                        for (i=0; i<TAM_PIEZA+1; i++)
-                        {
-                            for (j=0; j<TAM_PIEZA+1; j++)
-                            {
-                                pieza_aux[i][j] = tablero[i+n][j+m] + piezas_invalidas[cont][i][j];
-                            }
-                        }
-                        // dibujar_tablero(tablero);
-                        // dibujar_pieza_invalida(piezas_invalidas[cont]);
-                        
-                        //printf("%d,%d\n",n,m);
-                        if (pos_invalida_correcta(pieza_aux) == 1){
-                            // printf("Este tablero tiene ceros aisaldos\n");
-                            // dibujar_tablero(tablero);
-                            // dibujar_pieza_invalida(piezas_invalidas[cont]);
-                            return 1;
-                        }
-                    }
-                }   
-                //Rotamos pieza 90º a la dcha
-                // dibujar_pieza_invalida(piezas_invalidas[cont]);
-                for (i=0; i<TAM_PIEZA+1; i++)
-                {
-                    for (j=0; j<TAM_PIEZA+1; j++)
-                    {
-                        pieza_aux[i][j] = piezas_invalidas[cont][i][j];
-                    }
-                }
-                
-                for (i=0; i<TAM_PIEZA+1; i++)
-                {
-                    for (j=0; j<TAM_PIEZA+1; j++)
-                    {
-                        piezas_invalidas[cont][i][j] = pieza_aux[TAM_PIEZA-j][i];
-                    }
-                }
-                //dibujar_pieza_invalida(piezas_invalidas[cont]);
-                // printf(" \n");
-            }
-            
-            //Cambiamos simetria
-            //dibujar_pieza_invalida(piezas_invalidas[cont]);
-            for (i=0; i<TAM_PIEZA+1; i++)
-            {
-                for (j=0; j<TAM_PIEZA+1; j++)
-                {
-                    pieza_aux[i][j] = piezas_invalidas[cont][i][j];
+                    // printf("Existen ceros aislados\n");
+                    // dibujar_tablero(tablero);
+                    return 1;
                 }
             }
-        
-            for (i=0; i<TAM_PIEZA+1; i++)
-            {
-                for (j=0; j<TAM_PIEZA+1; j++)
-                {
-                    piezas_invalidas[cont][i][j] = pieza_aux[i][TAM_PIEZA-j];
-                }
-            }
-            //dibujar_pieza_invalida(piezas_invalidas[cont]);
-            // printf(" \n");
+            j_ant = j;
+            i_ant = i;
         }
     }
-    // printf("No hay ceros aislados\n");
+    // printf("No existen ceros aislados\n");
     // dibujar_tablero(tablero);
-    return 0;
+    return 0;    
 }
 
 int encontrar_solucion(int tablero[TAM_TABLERO][TAM_TABLERO],int cont){
@@ -383,6 +326,16 @@ int encontrar_solucion(int tablero[TAM_TABLERO][TAM_TABLERO],int cont){
                         //dibujar_tablero(tablero);
                         if(encontrar_aislados(tablero) == 0){
                             //No se han encontrado aislados
+
+                            //Recuperamos los ceros
+                            for (i=0;i<TAM_TABLERO;i++){
+                                for(j=0;j<TAM_TABLERO;j++){
+                                    if(tablero[i][j] == '1'){
+                                        tablero[i][j] = '0';
+                                    }
+                                }
+                            }
+
                             //dibujar_tablero(tablero);
                             if (cont == (NUM_PIEZAS-1)){
                                 encontrada_valida = 1;
@@ -390,6 +343,14 @@ int encontrar_solucion(int tablero[TAM_TABLERO][TAM_TABLERO],int cont){
 
                                 dibujar_tablero(tablero);
                             }else{
+                                //Recuperamos los ceros
+                                for (i=0;i<TAM_TABLERO;i++){
+                                    for(j=0;j<TAM_TABLERO;j++){
+                                        if(tablero[i][j] == '1'){
+                                            tablero[i][j] = '0';
+                                        }
+                                    }
+                                }
                                 encontrar_solucion(tablero, cont+1);
                                 //printf("Vuelta al %d\n",cont);
                                 //dibujar_tablero(tablero);
@@ -463,10 +424,10 @@ int main()
         {122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122},
         {122, 122, 122, 122, '0', '0', '0', '0', '0', '0', '0', '0', 122, 122, 122, 122},
         {122, 122, 122, 122, '0', '0', '0', '0', '0', '0', '0', '0', 122, 122, 122, 122},
-        {122, 122, 122, 122, '0', '0', '0', '0', '0', 'z', '0', '0', 122, 122, 122, 122},
-        {122, 122, 122, 122, '0', '0', '0', '0', 'z', '0', '0', '0', 122, 122, 122, 122},
-        {122, 122, 122, 122, '0', '0', '0', 'z', '0', '0', '0', '0', 122, 122, 122, 122},
-        {122, 122, 122, 122, '0', '0', 'z', '0', '0', '0', '0', '0', 122, 122, 122, 122},
+        {122, 122, 122, 122, '0', '0', '0', '0', '0', '0', '0', '0', 122, 122, 122, 122},
+        {122, 122, 122, 122, '0', '0', '0', 'z', 'z', '0', '0', '0', 122, 122, 122, 122},
+        {122, 122, 122, 122, '0', '0', '0', 'z', 'z', '0', '0', '0', 122, 122, 122, 122},
+        {122, 122, 122, 122, '0', '0', '0', '0', '0', '0', '0', '0', 122, 122, 122, 122},
         {122, 122, 122, 122, '0', '0', '0', '0', '0', '0', '0', '0', 122, 122, 122, 122},
         {122, 122, 122, 122, '0', '0', '0', '0', '0', '0', '0', '0', 122, 122, 122, 122},
         {122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122},
@@ -491,7 +452,13 @@ int main()
 
     t = clock() - t;
     double minutos = ((double)t)/CLOCKS_PER_SEC/60;
-    printf("Ha tardado %f minutos\n", minutos);
+    if (minutos > 1)
+    {
+        printf("Ha tardado %f minutos\n", minutos);
+    }else
+    {
+        printf("Ha tardado %f segundos\n", minutos*60);
+    }
     printf("Final\n");
     return 0;
 }
