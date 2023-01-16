@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include <time.h>
 #include <curses.h>
+#include <stdlib.h>
+#include <string.h>
 
-#define KRED  "\x1B[31m"
 
 #define TAM_TABLERO 16
 #define TAM_PIEZA 5
@@ -102,9 +103,9 @@ int dibujar_tablero(int tablero[TAM_TABLERO][TAM_TABLERO])
             }   
             
         }
-        printf("\n");
+        printf("\r\n");
     }
-    printf("\n");
+    printf("\r\n");
     return 0;
 }
 
@@ -282,7 +283,7 @@ int encontrar_solucion(int tablero[TAM_TABLERO][TAM_TABLERO],int cont){
     //printf("Contador: %d\n",cont);
     if (cont >= cont_max){
         cont_max = cont;
-        printf("Mejor hasta el momento: %d piezas\n",cont_max);
+        printf("Mejor hasta el momento: %d piezas\r\n",cont_max);
         dibujar_tablero(tablero);
     }
     //printf("Encontada valida: %d\n",encontrada_valida);
@@ -417,6 +418,27 @@ int encontrar_solucion(int tablero[TAM_TABLERO][TAM_TABLERO],int cont){
     
 }
 
+void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string)
+{	int length, x, y;
+	float temp;
+
+	if(win == NULL)
+		win = stdscr;
+	getyx(win, y, x);
+	if(startx != 0)
+		x = startx;
+	if(starty != 0)
+		y = starty;
+	if(width == 0)
+		width = 80;
+
+	length = strlen(string);
+	temp = (width - length)/ 2;
+	x = startx + (int)temp;
+	mvwprintw(win, y, x, "%s", string);
+	refresh();
+}
+
 
 int main()
 {
@@ -448,26 +470,22 @@ int main()
     dibujar_tablero(tablero);
     //dibujar_pieza(piezas[cont]);
 
-    initscr();
+    initscr();			/* Start curses mode 		*/
+	if(has_colors() == FALSE)
+	{	endwin();
+		printf("Your terminal does not support color\r\n");
+		exit(1);
+	}
+	start_color();			/* Start color 			*/
+	init_pair(1, COLOR_RED, COLOR_BLACK);
 
-    // creating a window;
-    // with height = 15 and width = 10
-    // also with start x axis 10 and start y axis = 20
-    WINDOW *win = newwin(15, 17, 2, 10);
-    refresh();
-
-    // making box border with default border styles
-    box(win, 0, 0);
-
-    // move and print in window
-    mvwprintw(win, 0, 1, "Greeter");
-    mvwprintw(win, 1, 1, "Hello");
-
-    // refreshing the window
-    wrefresh(win);
-
+	attron(COLOR_PAIR(1));
+	print_in_middle(stdscr, LINES / 2, 0, 0, "Prueba de color");
+	attroff(COLOR_PAIR(1));
     getch();
-    endwin();
+	endwin();
+    
+
 
     clock_t t;
     t = clock();
@@ -478,18 +496,18 @@ int main()
 
     if (encontrada_valida == 0)
     {
-        printf("No se ha encontrado solucion\n");
+        printf("No se ha encontrado solucion\r\n");
     }
 
     double minutos = ((double)t)/CLOCKS_PER_SEC/60;
     if (minutos > 1)
     {
-        printf("Ha tardado %f minutos\n", minutos);
+        printf("Ha tardado %f minutos\r\n", minutos);
     }else
     {
-        printf("Ha tardado %f segundos\n", minutos*60);
+        printf("Ha tardado %f segundos\r\n", minutos*60);
     }
-    printf("Final\n");
+    printf("Final\r\n");
     return 0;
 }
 
