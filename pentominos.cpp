@@ -1,9 +1,9 @@
 
 #include <stdio.h>
 #include <time.h>
-#include <curses.h>
+// #include <curses.h>
 
-#define KRED  "\x1B[31m"
+// #define KRED  "\x1B[31m"
 
 #define TAM_TABLERO 16
 #define TAM_PIEZA 5
@@ -414,6 +414,7 @@ int encontrar_solucion(int tablero[TAM_TABLERO][TAM_TABLERO],int cont){
             }
         }
     }
+    return 0;
     
 }
 
@@ -425,13 +426,13 @@ int main()
         {122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122},
         {122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122},
         {122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122},
+        {122, 122, 122, 122, '0', '0', 'z', '0', '0', '0', '0', '0', 122, 122, 122, 122},
+        {122, 122, 122, 122, '0', 'z', '0', '0', '0', '0', '0', '0', 122, 122, 122, 122},
         {122, 122, 122, 122, '0', '0', '0', '0', '0', '0', '0', '0', 122, 122, 122, 122},
         {122, 122, 122, 122, '0', '0', '0', '0', '0', '0', '0', '0', 122, 122, 122, 122},
         {122, 122, 122, 122, '0', '0', '0', '0', '0', '0', '0', '0', 122, 122, 122, 122},
-        {122, 122, 122, 122, '0', '0', '0', 'z', 'z', '0', '0', '0', 122, 122, 122, 122},
-        {122, 122, 122, 122, '0', '0', '0', 'z', 'z', '0', '0', '0', 122, 122, 122, 122},
         {122, 122, 122, 122, '0', '0', '0', '0', '0', '0', '0', '0', 122, 122, 122, 122},
-        {122, 122, 122, 122, '0', '0', '0', '0', '0', '0', '0', '0', 122, 122, 122, 122},
+        {122, 122, 122, 122, '0', '0', 'z', '0', '0', '0', 'z', '0', 122, 122, 122, 122},
         {122, 122, 122, 122, '0', '0', '0', '0', '0', '0', '0', '0', 122, 122, 122, 122},
         {122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122},
         {122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122, 122},
@@ -448,26 +449,26 @@ int main()
     dibujar_tablero(tablero);
     //dibujar_pieza(piezas[cont]);
 
-    initscr();
+    // initscr();
 
-    // creating a window;
-    // with height = 15 and width = 10
-    // also with start x axis 10 and start y axis = 20
-    WINDOW *win = newwin(15, 17, 2, 10);
-    refresh();
+    // // creating a window;
+    // // with height = 15 and width = 10
+    // // also with start x axis 10 and start y axis = 20
+    // WINDOW *win = newwin(15, 17, 2, 10);
+    // refresh();
 
-    // making box border with default border styles
-    box(win, 0, 0);
+    // // making box border with default border styles
+    // box(win, 0, 0);
 
-    // move and print in window
-    mvwprintw(win, 0, 1, "Greeter");
-    mvwprintw(win, 1, 1, "Hello");
+    // // move and print in window
+    // mvwprintw(win, 0, 1, "Greeter");
+    // mvwprintw(win, 1, 1, "Hello");
 
-    // refreshing the window
-    wrefresh(win);
+    // // refreshing the window
+    // wrefresh(win);
 
-    getch();
-    endwin();
+    // getch();
+    // endwin();
 
     clock_t t;
     t = clock();
